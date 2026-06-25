@@ -2,9 +2,9 @@ package Model;
 
 public class User {
 	
-String userId,name,email,password,roleId,created_at;
+	String userId, name, email, phone, password, roleId, created_at;
 
-int otp;
+	int otp;
 
 
 
@@ -83,6 +83,26 @@ public User(String userId, String name, String email, String password, String ro
 	this.password = password;
 	this.roleId = roleId;
 	this.created_at = created_at;
+}
+
+// Constructor with phone
+public User(String userId, String name, String email, String phone, String password, String roleId, String created_at) {
+	super();
+	this.userId = userId;
+	this.name = name;
+	this.email = email;
+	this.phone = phone;
+	this.password = password;
+	this.roleId = roleId;
+	this.created_at = created_at;
+}
+
+public String getPhone() {
+	return phone;
+}
+
+public void setPhone(String phone) {
+	this.phone = phone;
 }
 
 @Override

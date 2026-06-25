@@ -4,6 +4,13 @@
 <%@page import="Model.Year"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +33,8 @@
 
    
         <p class="text-end">
-            <button type="submit" value="insert" name="btn" class="btn btn-dark"> <a href="./SemesterInsert.jsp" >Add New Semester</a> </button>
-        </p>
+<a href="./AdminPanel.jsp" class="btn btn-secondary me-2">← Back to Admin Panel</a>
+<a href="./SemesterInsert.jsp" class="btn btn-dark">Add New Semester</a>        </p>
   
     <table class="table table-bordered w-75 mx-auto">
         <thead>

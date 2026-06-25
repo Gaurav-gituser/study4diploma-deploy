@@ -28,10 +28,18 @@ public class ContactController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String btn = request.getParameter("btn");
+        String contactId = request.getParameter("contactId");
+        ContactDao dao = new ContactDao();
+
+        if (btn != null && btn.equalsIgnoreCase("delete")) {
+            dao.deleteContact(contactId);
+            response.sendRedirect("./Admin/ShowContacts.jsp?msg=deleted");
+        } else if (btn != null && btn.equalsIgnoreCase("markread")) {
+            dao.markAsRead(contactId);
+            response.sendRedirect("./Admin/ShowContacts.jsp?msg=read");        }
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

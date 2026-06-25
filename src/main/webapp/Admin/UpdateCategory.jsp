@@ -3,6 +3,13 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +35,10 @@ ArrayList<Category> categorys = dao2.getAllCategorys();
  
  
 <form action="./categoryInsert.jsp" >
-<p class="text-end"> <button type="submit" class="p-2 me-3 btn btn-dark"><a href="./categoryInsert.jsp">Add New Category</a> </button>
-</form>
+<p class="text-end">
+  <a href="./AdminPanel.jsp" class="btn btn-secondary me-2">← Back to Admin Panel</a>
+  <a href="./categoryInsert.jsp" class="btn btn-dark">Add New Category</a>
+</p></form>
 
 <table class="mx-auto mt-3 table  table table-bordered data-table" id="data" >
 <thead> <tr> <th scope="col">Category Name </th>  <th scope="col">Description </th>    <th scope="col">Edit/Delete </th>  </tr> </thead>

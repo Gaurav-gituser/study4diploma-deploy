@@ -14,6 +14,13 @@
 <%@page import="Dao.MaterialDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,8 +56,9 @@
 
 <div class="mt-5 px-3">
   <h2 class="text-center mb-4">All Uploaded Materials</h2>
-    <p class="text-end">
-        <a href="./MaterialInsert.jsp" class="btn btn-dark">Add New Material</a>
+   <p class="text-end">
+    <a href="./AdminPanel.jsp" class="btn btn-secondary me-2">← Back to Admin Panel</a>
+    <a href="./MaterialInsert.jsp" class="btn btn-dark">Add New Material</a>
     </p>
 
     <table class="table table-bordered">

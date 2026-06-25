@@ -2,6 +2,13 @@
 <%@ page import="Model.User" %>
 <%@ page import="Dao.UserDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,9 +49,10 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Password</th>
+                    <th>Phone</th>
                     <th>Created At</th>
                     <th>Role ID</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,9 +60,13 @@
                 <tr>
                     <td><%= user.getName() %></td>
                     <td><%= user.getEmail() %></td>
-                    <td><%= user.getPassword() %></td>
+                    <td><%= user.getPhone() %></td>
                     <td><%= user.getCreated_at() %></td>
                     <td><%= user.getRoleId() %></td>
+                    <td><a href="../UserController?btn=delete&userId=<%= user.getUserId() %>" 
+       						onclick="return confirm('Are you sure you want to delete this user?')"
+       						style="color:red; font-weight:600;">Delete</a>
+                   </td>
                 </tr>
             <% } %>
             </tbody>

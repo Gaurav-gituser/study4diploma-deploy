@@ -2,6 +2,13 @@
 <%@ page import="Model.Contact" %>
 <%@ page import="Dao.ContactDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +42,9 @@
     </style>
 </head>
 <body>
+<div class="text-end p-3">
+  <a href="./AdminPanel.jsp" class="btn btn-secondary">← Back to Admin Panel</a>
+</div>
 
 <div class="container">
     <div class="table-wrapper">
@@ -50,20 +60,34 @@
             <table class="table table-bordered table-hover align-middle text-center">
                 <thead class="table-primary">
                     <tr>
-                      
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Message</th>
-                    </tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+    <th>Status</th>
+    <th>Actions</th>
+</tr>
                 </thead>
                 <tbody>
                     <% for (Contact c : contactList) { %>
                         <tr>
-                         
-                            <td><%= c.getName() %></td>
-                            <td><%= c.getEmail() %></td>
-                            <td><%= c.getComment() %></td>
-                        </tr>
+    <td><%= c.getName() %></td>
+    <td><%= c.getEmail() %></td>
+    <td><%= c.getComment() %></td>
+    <td>
+        <% if ("read".equals(c.getStatus())) { %>
+            <span class="badge bg-success">Read</span>
+        <% } else { %>
+            <span class="badge bg-warning text-dark">Unread</span>
+        <% } %>
+    </td>
+    <td>
+        <a href="../ContactController?btn=markread&contactId=<%= c.getContactId() %>"
+           class="btn btn-sm btn-info me-1">✅ Mark Read</a>
+        <a href="../ContactController?btn=delete&contactId=<%= c.getContactId() %>"
+           onclick="return confirm('Delete this message?')"
+           class="btn btn-sm btn-danger">🗑 Delete</a>
+    </td>
+</tr>
                     <% } %>
                 </tbody>
             </table>

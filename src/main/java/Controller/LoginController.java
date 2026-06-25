@@ -41,11 +41,11 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		 String email = request.getParameter("email");
-	        String password = request.getParameter("password");
-
+		String emailOrPhone = request.getParameter("email");  // field name stays "email" in form
+		String password = request.getParameter("password");
+		
 	        UserDao userDAO = new UserDao();
-	        User user = userDAO.login(email, password);
+	        User user = userDAO.login(emailOrPhone, password);
 	        System.out.println("login user="+user);
 	        if (user != null) {
 	            // Login successful, store user in session

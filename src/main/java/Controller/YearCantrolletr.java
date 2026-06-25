@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import Dao.YearDao;
 import Model.Year;
 
+import Helper.PasswordHelper;
+import Dao.UserDao;
 @WebServlet("/YearController")
 public class YearCantrolletr extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -22,12 +24,21 @@ public class YearCantrolletr extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        YearDao dao = new YearDao();
-        ArrayList<Year> years = dao.getAllyears();
-        HttpSession session = request.getSession();
-        session.setAttribute("allYears", years);
-        response.sendRedirect("./Admin/UpdateYear.jsp");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String btn = request.getParameter("btn");
+
+        if (btn != null && btn.equalsIgnoreCase("delete")) {
+            String userId = request.getParameter("userId");
+            UserDao dao = new UserDao();
+            int result = dao.deleteUser(userId);
+            if (result == 1) {
+                response.sendRedirect("../Admin/allUsers.jsp?msg=deleted");
+            } else {
+                response.sendRedirect("../Admin/allUsers.jsp?msg=error");
+            }
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

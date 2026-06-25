@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import Helper.PasswordHelper;
 import Helper.Config;
 import Model.User;
 import Model.semester;
@@ -47,13 +47,14 @@ public class UserDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.users VALUES (?, ?,?,?,?,?)");
-            ps.setString(1,user.getUserId());
-  		  ps.setString(2,user.getName());
-  		  ps.setString(3,user.getEmail());
-  		 ps.setString(4,user.getPassword());
-  		 ps.setString(5,user.getCreated_at());
-  		 ps.setString(6,user.getRoleId());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.users (user_id, name, email, phone, password, created_at, role_id) VALUES (?,?,?,?,?,?,?)");
+            ps.setString(1, user.getUserId());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhone());
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getCreated_at());
+            ps.setString(7, user.getRoleId());
 
   		  result = ps.executeUpdate();
   		 
@@ -127,26 +128,26 @@ public class UserDao {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-
+        String sql = "SELECT * FROM users WHERE (email = ? OR phone = ?)";
         try {
-            con = fig.getConnection(); // Assuming fig is a helper class for DB connection
+            con = fig.getConnection();
             stmt = con.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-
+            stmt.setString(1, email);  // email parameter holds email OR phone value
+            stmt.setString(2, email);  // check phone column too
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-               String uid = rs.getString(1);
-               String name = rs.getString(2);
-               String email1 = rs.getString(3);
-               String password1 = rs.getString(4);
-              String createAt = rs.getString(5);
-              String role = rs.getString(6);
-            		
-              user  = new User(uid, name, email1, password1, role, createAt);
-              
+                String uid = rs.getString("user_id");
+                String name = rs.getString("name");
+                String email1 = rs.getString("email");
+                String phone1 = rs.getString("phone");
+                String password1 = rs.getString("password");
+                String createAt = rs.getString("created_at");
+                String role = rs.getString("role_id");
+
+                if (PasswordHelper.verify(password, password1)) {
+                    user = new User(uid, name, email1, phone1, password1, role, createAt);
+                }              
                 // Password is not stored in the session for security
             }
 
@@ -159,17 +160,18 @@ public class UserDao {
     }
     
   
-        public int updateUser(String userId,String name,String email) {
-        	  int res = 0;
-            try  {
-            	System.out.println(userId+name+email);
-            	con = fig.getConnection();
-                String sql = "UPDATE users SET name = ?, email = ? WHERE user_id = ?";
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setString(1, name);
-                ps.setString(2, email);
-                ps.setString(3, userId);
-                 res = ps.executeUpdate();
+    public int updateUser(String userId, String name, String email, String phone) {
+        int res = 0;
+        try  {
+            System.out.println(userId + name + email + phone);
+            con = fig.getConnection();
+            String sql = "UPDATE users SET name = ?, email = ?, phone = ? WHERE user_id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, phone);
+            ps.setString(4, userId);
+            res = ps.executeUpdate();
                
             } catch (Exception e) {
                 e.printStackTrace();
@@ -211,6 +213,7 @@ public class UserDao {
                     user.setUserId(rs.getString("user_id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
+                    user.setPhone(rs.getString("phone"));
                     user.setPassword(rs.getString("password"));
                     user.setCreated_at(rs.getString("created_at"));
                     user.setRoleId(rs.getString("role_id"));
@@ -248,6 +251,21 @@ public class UserDao {
             }
 
             return isUpdated;
+        }
+        
+        public int deleteUser(String userId) {
+            int result = 0;
+            try {
+                Connection con = DBConnect.getConnection();
+                String sql = "DELETE FROM users WHERE user_id = ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, userId);
+                result = stmt.executeUpdate();
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
         }
 
         

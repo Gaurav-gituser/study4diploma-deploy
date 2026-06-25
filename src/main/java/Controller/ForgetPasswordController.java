@@ -24,6 +24,8 @@ import javax.mail.internet.MimeMessage;
 import Dao.UserDao;
 import Model.User;
 
+import Helper.PasswordHelper;
+
 /**
  * Servlet implementation class ForgetPasswordController
  */
@@ -142,8 +144,7 @@ public class ForgetPasswordController extends HttpServlet {
 
 	    if (newPass.equals(confirmPass)) {  // ✅ compare passwords, not email
 	        UserDao dao = new UserDao();
-	        int result = dao.updatePassword(email, newPass);
-
+	        int result = dao.updatePassword(email, PasswordHelper.hash(newPass));
 	        if (result == 1) {
 	            out.println("<script type='text/javascript'>");
 	            out.println("alert('Password updated successfully');");

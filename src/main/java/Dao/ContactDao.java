@@ -50,8 +50,7 @@ public class ContactDao {
 	
 	 public int saveFeedback(Contact c) {
 	        int result = 0;
-	        String sql = "INSERT INTO contact  VALUES (?,?, ?, ?)";
-	        PreparedStatement ps =null;
+	        String sql = "INSERT INTO contact (contact_id, name, email, message) VALUES (?, ?, ?, ?)";	        PreparedStatement ps =null;
 	        con = fig.getConnection();
 	        try  {
 	        	
@@ -110,7 +109,7 @@ public class ContactDao {
 		            contact.setName(rs.getString("name"));
 		            contact.setEmail(rs.getString("email"));
 		            contact.setComment(rs.getString("message"));
-
+		            contact.setStatus(rs.getString("status"));
 		            contactList.add(contact);
 		        }
 		    } catch (Exception e) {
@@ -119,6 +118,32 @@ public class ContactDao {
 		    }
 
 		    return contactList;
+		}
+	 
+	 public int deleteContact(String contactId) {
+		    int result = 0;
+		    try {
+		        con = fig.getConnection();
+		        PreparedStatement ps = con.prepareStatement("DELETE FROM contact WHERE contact_id = ?");
+		        ps.setString(1, contactId);
+		        result = ps.executeUpdate();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return result;
+		}
+
+		public int markAsRead(String contactId) {
+		    int result = 0;
+		    try {
+		        con = fig.getConnection();
+		        PreparedStatement ps = con.prepareStatement("UPDATE contact SET status = 'read' WHERE contact_id = ?");
+		        ps.setString(1, contactId);
+		        result = ps.executeUpdate();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return result;
 		}
 
 

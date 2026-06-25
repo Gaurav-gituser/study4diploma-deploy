@@ -2,8 +2,8 @@ package Model;
 
 public class Contact {
 
-	String contactId,name,email,comment;
-
+	String contactId,name,email,comment,status;
+	
 	public String getContactId() {
 		return contactId;
 	}
@@ -34,6 +34,14 @@ public class Contact {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public String getStatus() {
+	    return status;
+	}
+
+	public void setStatus(String status) {
+	    this.status = status;
 	}
 
 	public Contact() {

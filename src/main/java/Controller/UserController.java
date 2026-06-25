@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import Helper.PasswordHelper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,7 +75,9 @@ public class UserController extends HttpServlet {
 		
 			name = request.getParameter("name");
 			email = request.getParameter("email");
+			String phone = request.getParameter("phone");
 			password = request.getParameter("password");
+			password = PasswordHelper.hash(password);
 			roleId = "rid_102";
 			 LocalDateTime now = LocalDateTime.now();
 		     String formattedDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -82,8 +85,7 @@ public class UserController extends HttpServlet {
 			UserDao dao = new UserDao();
 			String userId = dao.auto_uid();
 
-			User user = new User(userId, name, email, password, roleId,formattedDate);
-			
+			User user = new User(userId, name, email, phone, password, roleId, formattedDate);			
 			System.out.println("user="+user);
 
 			int result = dao.UserInsert(user);
@@ -97,23 +99,52 @@ public class UserController extends HttpServlet {
 
 		} else if (btn.equalsIgnoreCase("update")) {
 
-			String userId = request.getParameter("userId");
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
+		    String userId = request.getParameter("userId");
+		    String name = request.getParameter("name");
+		    String email = request.getParameter("email");
+		    String phone = request.getParameter("phone");
 
-            UserDao dao = new UserDao();
-			int result = dao.updateUser(userId,name,email);
-			if(result == 1)
-			{
-				System.out.println("user insert");
-				response.sendRedirect("./User/index.jsp");
-			}
-			else
-			{
-				response.sendRedirect("./User/index.jsp");
-			}
+		    UserDao dao = new UserDao();
+		    int result = dao.updateUser(userId, name, email, phone);
+		    if (result == 1) {
+		        // Update session immediately so profile page shows new data instantly
+		        HttpSession session = request.getSession();
+		        Model.User loggedUser = (Model.User) session.getAttribute("user");
+		        if (loggedUser != null) {
+		            loggedUser.setName(name);
+		            loggedUser.setEmail(email);
+		            loggedUser.setPhone(phone);
+		            session.setAttribute("user", loggedUser);
+		        }
+		        response.sendRedirect("./User/profile.jsp?msg=updated");
+		    } else {
+		        response.sendRedirect("./User/profile.jsp?msg=error");
+		    }
+        } else if (btn.equalsIgnoreCase("changepassword")) {
 
-		}
-	}
+            HttpSession session = request.getSession();
+            Model.User loggedUser = (Model.User) session.getAttribute("user");
 
+            String currentPassword = request.getParameter("currentPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmPassword = request.getParameter("confirmPassword");
+
+            if (loggedUser != null && PasswordHelper.verify(currentPassword, loggedUser.getPassword())) {                if (newPassword.equals(confirmPassword)) {
+                    UserDao dao = new UserDao();
+                    int result = dao.updatePassword(loggedUser.getEmail(), PasswordHelper.hash(newPassword));
+                    if (result == 1) {
+                        loggedUser.setPassword(newPassword);
+                        session.setAttribute("user", loggedUser);
+                        response.sendRedirect("./User/profile.jsp?msg=success");
+                    } else {
+                        response.sendRedirect("./User/profile.jsp?msg=error");
+                    }
+                } else {
+                    response.sendRedirect("./User/profile.jsp?msg=mismatch");
+                }
+            } else {
+                response.sendRedirect("./User/profile.jsp?msg=wrongpassword");
+            }
+        }
+    }
 }

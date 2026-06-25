@@ -3,6 +3,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +36,10 @@ ArrayList<Scheme>schemes = dao2.getAllScheme();
  
  
 <form action=SchemeCantroller"./SchemeInsert.jsp" >
-<p class="text-end"> <button type="submit" class="p-2 me-3 btn btn-dark"><a href="./SchemeInsert.jsp">Add New Scheme </a> </button>
-</form>
+<p class="text-end">
+  <a href="./AdminPanel.jsp" class="btn btn-secondary me-2">← Back to Admin Panel</a>
+  <a href="./SchemeInsert.jsp" class="btn btn-dark">Add New Scheme</a>
+</p></form>
 
 <table class="mx-auto mt-3 table  table table-bordered data-table w-50" id="data" >
 <thead> <tr> <th scope="col">Scheme Name </th>  <th scope="col">Edit/Delete </th>  </tr> </thead>

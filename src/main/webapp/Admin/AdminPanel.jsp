@@ -3,6 +3,13 @@
 <%@page import="Model.Material"%>
 <%@page import="Dao.UserDao"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%
+    Model.User sessionUser = (Model.User) session.getAttribute("user");
+    if (sessionUser == null || sessionUser.getRoleId().equalsIgnoreCase("rid_102")) {
+        response.sendRedirect("../User/login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,10 +109,12 @@
     <h4 class="text-center text-light">Admin Panel</h4>
     
     <a href="#" class="active"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+    <a href="../User/index.jsp"><i class="bi bi-house-fill me-2"></i> Go to Home</a>
     
     <a href="./allUsers.jsp"><i class="bi bi-people-fill me-2"></i> Manage Users</a>
     
     <a href="./UpdateSubject.jsp"><i class="bi bi-journal-text me-2"></i> Manage Subjects</a>
+<a href="./UpdateBranche.jsp"><i class="bi bi-signpost-split-fill me-2"></i> Manage Branches</a>
     
     <a href="./UpdateMaterial.jsp"><i class="bi bi-cloud-upload-fill me-2"></i> Upload Materials</a>
     

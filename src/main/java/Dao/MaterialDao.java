@@ -117,7 +117,7 @@ public class MaterialDao {
 	    return materialList;
 	}
 	
-	public ArrayList<Material> getMaterials(String schemeId, String branchId, String semesterId, String subjectId, String academicYearId, String categoryId) {
+	public ArrayList<Material> getMaterials(String schemeId, String branchId, String semesterId, String academicYearId, String categoryId) {
 	    ArrayList<Material> materialList = new ArrayList<>();
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
@@ -125,16 +125,15 @@ public class MaterialDao {
 
 	    try {
 	        String sql = "SELECT * FROM study4diploma.material " +
-	                     "WHERE category_id = ? AND subject_id = ? AND acadamic_year = ? " +
+	                     "WHERE category_id = ? AND acadamic_year = ? " +
 	                     "AND schemes_id = ? AND semester_id = ? AND branche_id = ?";
 
 	        ps = con.prepareStatement(sql);
 	        ps.setString(1, categoryId);
-	        ps.setString(2, subjectId);
-	        ps.setString(3, academicYearId);
-	        ps.setString(4, schemeId);
-	        ps.setString(5, semesterId);
-	        ps.setString(6, branchId);
+	        ps.setString(2, academicYearId);
+	        ps.setString(3, schemeId);
+	        ps.setString(4, semesterId);
+	        ps.setString(5, branchId);
 
 	        rs = ps.executeQuery();
 

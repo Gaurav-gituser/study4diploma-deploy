@@ -1,90 +1,82 @@
-
+// ── Background particle canvas ──────────────────────────────
 const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const ctx    = canvas.getContext("2d");
 
-let dots = [];
-const colors = [
-  "rgba(0, 212, 255, 1)",
-  "rgba(0, 100, 200, 1)",
-  "rgba(200, 100, 255, 1)",
-  "rgba(120, 0, 180, 1)"
-];
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-for (let i = 0; i < 50; i++) {
-  dots.push({
+const particles = [];
+const PARTICLE_COUNT = 55;
+
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    radius: Math.random() * 20 + 10,
-    speed: Math.random() * 0.5 + 0.2,
-    glow: Math.random() * 40 + 80,
-    color: colors[Math.floor(Math.random() * colors.length)]
+    r: Math.random() * 1.4 + 0.4,       // smaller, cleaner dots
+    speed: Math.random() * 0.35 + 0.1,
+    opacity: Math.random() * 0.4 + 0.15,
+    color: Math.random() > 0.5
+      ? `rgba(0,198,255,`               // cyan brand colour
+      : `rgba(100,160,255,`             // soft blue
   });
 }
 
-function drawDots() {
+function drawParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  dots.forEach(dot => {
+  particles.forEach(p => {
     ctx.beginPath();
-    ctx.shadowBlur = dot.glow;
-    ctx.shadowColor = dot.color;
-    ctx.fillStyle = dot.color;
-    ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2, false);
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color + p.opacity + ")";
     ctx.fill();
-    ctx.shadowBlur = 0;
   });
 }
 
-function updateDots() {
-  dots.forEach(dot => {
-    dot.y += dot.speed;
-    if (dot.y - dot.radius > canvas.height) {
-      dot.y = -dot.radius;
-      dot.x = Math.random() * canvas.width;
+function updateParticles() {
+  particles.forEach(p => {
+    p.y += p.speed;
+    if (p.y - p.r > canvas.height) {
+      p.y = -p.r;
+      p.x = Math.random() * canvas.width;
     }
   });
 }
 
-function animate() {
-  drawDots();
-  updateDots();
+(function animate() {
+  drawParticles();
+  updateParticles();
   requestAnimationFrame(animate);
-}
-animate();
+})();
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
 
-// Typing Effect
-const texts = ["notes...", "previous years paper..."];
-let i = 0, j = 0;
-let currentText = "";
-let isDeleting = false;
-const typingElement = document.getElementById("typing");
+// ── Typing effect ───────────────────────────────────────────
+const texts   = ["notes...", "previous year papers...", "exam resources..."];
+let   i = 0, j = 0;
+let   isDeleting = false;
+const el = document.getElementById("typing");
 
 function type() {
-  currentText = texts[i];
+  if (!el) return;
+  const current = texts[i];
   if (!isDeleting) {
-    typingElement.textContent = currentText.substring(0, j + 1);
+    el.textContent = current.substring(0, j + 1);
     j++;
-    if (j === currentText.length) {
+    if (j === current.length) {
       isDeleting = true;
-      setTimeout(type, 1500);
+      setTimeout(type, 1600);
       return;
     }
   } else {
-    typingElement.textContent = currentText.substring(0, j - 1);
+    el.textContent = current.substring(0, j - 1);
     j--;
     if (j === 0) {
       isDeleting = false;
       i = (i + 1) % texts.length;
     }
   }
-  setTimeout(type, isDeleting ? 80 : 120);
+  setTimeout(type, isDeleting ? 65 : 110);
 }
 type();
-
-
