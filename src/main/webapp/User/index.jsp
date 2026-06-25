@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="index.css?v=20260625">
 </head>
 
 <body>
@@ -395,6 +395,6 @@ document.addEventListener('click', function(e) {
   if (wrap && !wrap.contains(e.target)) closeNavDropdown();
 });
 </script>
-  <script src="index.js"></script>
+  <script src="index.js?v=20260625"></script>
 </body>
 </html>

@@ -5,27 +5,20 @@ import java.sql.DriverManager;
 
 public class Config {
 
-	private  Connection con;
-	
-	public  Connection getConnection() {
-		try
-		{
-			if(con == null)
-{
-    Class.forName("com.mysql.cj.jdbc.Driver");
+	public Connection getConnection() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 
-    String url  = System.getenv("DB_URL");
-    String user = System.getenv("DB_USER");
-    String pass = System.getenv("DB_PASSWORD");
+			String url  = System.getenv("DB_URL");
+			String user = System.getenv("DB_USER");
+			String pass = System.getenv("DB_PASSWORD");
 
-    con = DriverManager.getConnection(url, user, pass);
-}
-			else
-				con=con;
-			
+			con = DriverManager.getConnection(url, user, pass);
 		}
 		catch (Exception e) {
-			System.out.println("exp="+e);
+			System.out.println("DB Connection error: " + e);
+			e.printStackTrace();
 		}
 		return con;
 	}
