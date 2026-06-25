@@ -260,6 +260,13 @@
     %>
       <div class="error-msg"><%= errMsg %></div>
     <% } %>
+    <%
+      String successMsg = (String) session.getAttribute("signupSuccess");
+      if (successMsg != null) {
+          session.removeAttribute("signupSuccess");
+    %>
+      <div class="error-msg" style="color:#00c664;border-color:#00c664;background:rgba(0,198,100,0.15);"><%= successMsg %></div>
+    <% } %>
 
     <!-- Toggle: Email / Phone -->
     <div class="login-toggle">
