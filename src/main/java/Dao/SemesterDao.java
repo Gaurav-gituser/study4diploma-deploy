@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import org.apache.catalina.Cluster;
-
 import Helper.Config;
 import Model.Year;
 import Model.semester;
@@ -21,7 +19,7 @@ public class SemesterDao{
         String sid = "sid_100";
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT semester_id FROM study4diploma.semesters ORDER BY semester_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement ps = con.prepareStatement("SELECT semester_id FROM semesters ORDER BY semester_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = ps.executeQuery();
 
             if (rs.last()) {
@@ -46,7 +44,7 @@ public class SemesterDao{
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.semesters VALUES (?, ?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO semesters VALUES (?, ?,?)");
             ps.setString(1, sem.getSemesterId());
             ps.setString(2, sem.getSemester());
             ps.setString(3, sem.getYear());
@@ -62,7 +60,7 @@ public class SemesterDao{
         ArrayList<semester> semesters = new ArrayList<>();
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM study4diploma.semesters");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM semesters");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
             	   String sid = rs.getString(1);
@@ -82,7 +80,7 @@ public class SemesterDao{
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE study4diploma.semesters SET number =?, year_id=? WHERE semester_id=?");
+            PreparedStatement ps = con.prepareStatement("UPDATE semesters SET number =?, year_id=? WHERE semester_id=?");
             ps.setString(1, sem.getSemester());
             ps.setString(2, sem.getYear());
             ps.setString(3, sem.getSemesterId());
@@ -97,7 +95,7 @@ public class SemesterDao{
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM study4diploma.semesters WHERE semester_id = ?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM semesters WHERE semester_id = ?");
             ps.setString(1, semesterId); // Corrected this line
             result = ps.executeUpdate();
         } catch (Exception e) {
@@ -115,7 +113,7 @@ public class SemesterDao{
 
         try {
             con = fig.getConnection();
-            ps = con.prepareStatement("SELECT * FROM study4diploma.semesters WHERE semester_id = ?");
+            ps = con.prepareStatement("SELECT * FROM semesters WHERE semester_id = ?");
             ps.setString(1, semesterId);
             rs = ps.executeQuery();
 

@@ -21,7 +21,7 @@ public class SubjectDao {
 	        String sid = "sid_100";
 	        try {
 	            con = fig.getConnection();
-	            PreparedStatement ps = con.prepareStatement("SELECT subject_id FROM study4diploma.subject ORDER BY subject_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	            PreparedStatement ps = con.prepareStatement("SELECT subject_id FROM subject ORDER BY subject_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	            ResultSet rs = ps.executeQuery();
 
 	            if (rs.last()) {
@@ -68,7 +68,7 @@ public class SubjectDao {
 	        ArrayList<Subject> subjects = new ArrayList<>();
 	        try {
 	            con = fig.getConnection();
-	            PreparedStatement ps = con.prepareStatement("SELECT * FROM study4diploma.subject");
+	            PreparedStatement ps = con.prepareStatement("SELECT * FROM subject");
 	            ResultSet rs = ps.executeQuery();
 	            while (rs.next()) {
 	            	   
@@ -93,7 +93,7 @@ public class SubjectDao {
 			int result = 0;
 	        try {
 	            con = fig.getConnection();
-	            PreparedStatement ps = con.prepareStatement("UPDATE study4diploma.subject SET number =?, year_id=? WHERE subject_id=?");
+	            PreparedStatement ps = con.prepareStatement("UPDATE subject SET number =?, year_id=? WHERE subject_id=?");
 	            ps.setString(1, subject.getSubjectId());
 	            ps.setString(2, subject.getName());
 	            ps.setString(3, subject.getBranchId());
@@ -136,7 +136,7 @@ public class SubjectDao {
 	        int result = 0;
 	        try {
 	            con = fig.getConnection();
-	            PreparedStatement ps = con.prepareStatement("DELETE FROM study4diploma.subject WHERE subject_id = ?");
+	            PreparedStatement ps = con.prepareStatement("DELETE FROM subject WHERE subject_id = ?");
 	            ps.setString(1, subjectId);
 	            result = ps.executeUpdate();
 	        } catch (Exception e) {
@@ -153,7 +153,7 @@ public class SubjectDao {
 
 	        try {
 	            con = fig.getConnection();
-	            ps = con.prepareStatement("SELECT * FROM study4diploma.subject WHERE subject_id = ?");
+	            ps = con.prepareStatement("SELECT * FROM subject WHERE subject_id = ?");
 	            ps.setString(1, subjectId);
 	            rs = ps.executeQuery();
 

@@ -22,7 +22,7 @@ public class ContactDao {
 		ResultSet rs=null;
 		try 
 		    {
-				ps = con.prepareStatement("select contact_id from study4diploma.contact order by contact_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				ps = con.prepareStatement("select contact_id from contact order by contact_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				rs = ps.executeQuery();
 				System.out.println(rs.last());
 				
@@ -77,7 +77,7 @@ public class ContactDao {
 
 		    try {
 		        con = fig.getConnection();
-		        ps = con.prepareStatement("SELECT COUNT(*) FROM study4diploma.contact");
+		        ps = con.prepareStatement("SELECT COUNT(*) FROM contact");
 		        rs = ps.executeQuery();
 
 		        if (rs.next()) {

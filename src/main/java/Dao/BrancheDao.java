@@ -17,7 +17,7 @@ public class BrancheDao {
         String bid = "bid_100";
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT branche_id FROM study4diploma.branches ORDER BY branche_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement ps = con.prepareStatement("SELECT branche_id FROM branches ORDER BY branche_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = ps.executeQuery();
 
             if (rs.last()) {
@@ -39,7 +39,7 @@ public class BrancheDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.branches VALUES (?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO branches VALUES (?, ?)");
             ps.setString(1, br.getbranche_id());
             ps.setString(2, br.getbranche());
          
@@ -54,7 +54,7 @@ public class BrancheDao {
         ArrayList<Branche> branches = new ArrayList<>();
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM study4diploma.branches");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM branches");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String branche = rs.getString(1);
@@ -71,7 +71,7 @@ public class BrancheDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE study4diploma.branches SET branche=? WHERE branche_id=?");
+            PreparedStatement ps = con.prepareStatement("UPDATE branches SET branche=? WHERE branche_id=?");
             ps.setString(1, branches.getbranche ());
             ps.setString(2, branches.getbranche_id());
             result = ps.executeUpdate();
@@ -85,7 +85,7 @@ public class BrancheDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM study4diploma.branches WHERE branche_id=?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM branches WHERE branche_id=?");
             ps.setString(1, branche_id);
             result = ps.executeUpdate();
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class BrancheDao {
         try {
             con = fig.getConnection();
             PreparedStatement ps = con.prepareStatement(
-                "SELECT * FROM study4diploma.branches WHERE branche_id = ?"
+                "SELECT * FROM branches WHERE branche_id = ?"
             );
             ps.setString(1, branche_id);
             ResultSet rs = ps.executeQuery();

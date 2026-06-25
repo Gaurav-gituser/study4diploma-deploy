@@ -17,7 +17,7 @@ public class YearDao {
         String yid = "yid_100";
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT year_id FROM study4diploma.year ORDER BY year_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement ps = con.prepareStatement("SELECT year_id FROM year ORDER BY year_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = ps.executeQuery();
 
             if (rs.last()) {
@@ -39,7 +39,7 @@ public class YearDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.year VALUES (?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO year VALUES (?, ?)");
             ps.setString(1, yr.getyear_id());
             ps.setString(2, yr.getyear());
          
@@ -54,7 +54,7 @@ public class YearDao {
         ArrayList<Year> years = new ArrayList<>();
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM study4diploma.year");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM year");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String year = rs.getString(1);
@@ -71,7 +71,7 @@ public class YearDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE study4diploma.year SET year=? WHERE year_id=?");
+            PreparedStatement ps = con.prepareStatement("UPDATE year SET year=? WHERE year_id=?");
             ps.setString(1, yr.getyear());
             ps.setString(2, yr.getyear_id());
             result = ps.executeUpdate();
@@ -85,7 +85,7 @@ public class YearDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM study4diploma.year WHERE year_id=?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM year WHERE year_id=?");
             ps.setString(1, year_id);
             result = ps.executeUpdate();
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class YearDao {
 
         try {
             con = fig.getConnection();
-            String sql = "SELECT * FROM study4diploma.year WHERE year_id = ?";
+            String sql = "SELECT * FROM year WHERE year_id = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, year_id);
 

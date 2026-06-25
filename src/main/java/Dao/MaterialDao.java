@@ -21,7 +21,7 @@ public class MaterialDao {
 		ResultSet rs=null;
 		try 
 		    {
-				ps = con.prepareStatement("select material_id from study4diploma.material order by material_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				ps = con.prepareStatement("select material_id from material order by material_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				rs = ps.executeQuery();
 				System.out.println(rs.last());
 				
@@ -56,7 +56,7 @@ public class MaterialDao {
 	    String newMaterialId = auto_Mid(); // Generate new material ID
 	    System.out.println("materisl="+material);
 	    try {
-	        String sql = "INSERT INTO study4diploma.material  VALUES (?, ?, ?,?,?,?,?,?,?,?,?)";
+	        String sql = "INSERT INTO material  VALUES (?, ?, ?,?,?,?,?,?,?,?,?)";
 	        ps = con.prepareStatement(sql);
 	        ps.setString(1, material.getMaterialId());
 	        ps.setString(2, material.getTitle());
@@ -90,7 +90,7 @@ public class MaterialDao {
 	    con = fig.getConnection();
 
 	    try {
-	        String sql = "SELECT * FROM study4diploma.material";
+	        String sql = "SELECT * FROM material";
 	        ps = con.prepareStatement(sql);
 	        rs = ps.executeQuery();
 
@@ -124,7 +124,7 @@ public class MaterialDao {
 	    con = fig.getConnection();
 
 	    try {
-	        String sql = "SELECT * FROM study4diploma.material " +
+	        String sql = "SELECT * FROM material " +
 	                     "WHERE category_id = ? AND acadamic_year = ? " +
 	                     "AND schemes_id = ? AND semester_id = ? AND branche_id = ?";
 
@@ -169,7 +169,7 @@ public class MaterialDao {
 	    con = fig.getConnection(); // assuming `fig` is your DB utility object
 
 	    try {
-	        String sql = "UPDATE study4diploma.material SET " +
+	        String sql = "UPDATE material SET " +
 	                     "titel = ?, " +
 	                     "description = ?, " +
 	                     "file_path = ?, " +
@@ -212,7 +212,7 @@ public class MaterialDao {
 	    con = fig.getConnection(); // Assumes fig is your DB connection utility
 
 	    try {
-	        String sql = "DELETE FROM study4diploma.material WHERE material_id = ?";
+	        String sql = "DELETE FROM material WHERE material_id = ?";
 	        ps = con.prepareStatement(sql);
 	        ps.setString(1, materialId);
 
@@ -233,7 +233,7 @@ public class MaterialDao {
 
 	    try {
 	        con = fig.getConnection();
-	        ps = con.prepareStatement("SELECT COUNT(*) FROM study4diploma.material");
+	        ps = con.prepareStatement("SELECT COUNT(*) FROM material");
 	        rs = ps.executeQuery();
 
 	        if (rs.next()) {

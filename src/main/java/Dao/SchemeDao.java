@@ -27,7 +27,7 @@ public class SchemeDao
 		ResultSet rs=null;
 		try 
 		    {
-				ps = con.prepareStatement("select schemes_id from study4diploma.schemes order by schemes_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				ps = con.prepareStatement("select schemes_id from schemes order by schemes_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				rs = ps.executeQuery();
 				System.out.println(rs.last());
 				
@@ -60,7 +60,7 @@ public class SchemeDao
 	   int result = 0;
 	   
 	   try {
-		  ps = con.prepareStatement("insert into study4diploma.schemes values(?,?)");
+		  ps = con.prepareStatement("insert into schemes values(?,?)");
 		  ps.setString(1,Sch.getSchemeId());
 		  ps.setString(2,Sch.getSchemeName());
 		  
@@ -86,7 +86,7 @@ public class SchemeDao
 	  
 	  try 
 		  { 
-			  ps = con.prepareStatement("select * from study4diploma.schemes");
+			  ps = con.prepareStatement("select * from schemes");
 			  rs = ps.executeQuery();
 			  
 			  while (rs.next()) 

@@ -25,7 +25,7 @@ public class CategoryDao
 		ResultSet rs=null;
 		try 
 		    {
-				ps = con.prepareStatement("select category_id from study4diploma.categories order by category_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				ps = con.prepareStatement("select category_id from categories order by category_id",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				rs = ps.executeQuery();
 				System.out.println(rs.last());
 				
@@ -58,7 +58,7 @@ public class CategoryDao
 	   int result = 0;
 	   
 	   try {
-		  ps = con.prepareStatement("insert into study4diploma.categories values(?,?,?)");
+		  ps = con.prepareStatement("insert into categories values(?,?,?)");
 		  ps.setString(1,category.getCategoryId());
 		  ps.setString(2,category.getCategoryName());
 		  ps.setString(3,category.getDescription());
@@ -84,7 +84,7 @@ public class CategoryDao
 	  
 	  try 
 		  { 
-			  ps = con.prepareStatement("select * from study4diploma.categories");
+			  ps = con.prepareStatement("select * from categories");
 			  rs = ps.executeQuery();
 			  
 			  while (rs.next()) 
@@ -160,7 +160,7 @@ public Category getCategoryById(String categoryId) {
 
     try {
         con = fig.getConnection();
-        ps = con.prepareStatement("SELECT * FROM study4diploma.categories WHERE category_id = ?");
+        ps = con.prepareStatement("SELECT * FROM categories WHERE category_id = ?");
         ps.setString(1, categoryId);
         rs = ps.executeQuery();
 

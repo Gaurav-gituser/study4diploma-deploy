@@ -22,7 +22,7 @@ public class UserDao {
       
 		try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT user_id FROM study4diploma.users ORDER BY user_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement ps = con.prepareStatement("SELECT user_id FROM users ORDER BY user_id", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = ps.executeQuery();
 
             if (rs.last()) {
@@ -47,7 +47,7 @@ public class UserDao {
         int result = 0;
         try {
             con = fig.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO study4diploma.users (user_id, name, email, phone, password, created_at, role_id) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (user_id, name, email, phone, password, created_at, role_id) VALUES (?,?,?,?,?,?,?)");
             ps.setString(1, user.getUserId());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
@@ -69,7 +69,7 @@ public class UserDao {
 //        ArrayList<User> user = new ArrayList<>();
 //        try {
 //            con = fig.getConnection();
-//            PreparedStatement ps = con.prepareStatement("SELECT * FROM study4diploma.users");
+//            PreparedStatement ps = con.prepareStatement("SELECT * FROM users");
 //            ResultSet rs = ps.executeQuery();
 //            while (rs.next()) {
 //                String user_id = rs.getString(1);
@@ -92,7 +92,7 @@ public class UserDao {
 //		int result = 0;
 //        try {
 //            con = fig.getConnection();
-//            PreparedStatement ps = con.prepareStatement("UPDATE study4diploma.users SET user=? WHERE user_id=?");
+//            PreparedStatement ps = con.prepareStatement("UPDATE users SET user=? WHERE user_id=?");
 //            ps.setString(1, user.getuser_id());
 //            ps.setString(2, user.getname());
 //            ps.setString(3, user.getemail());
@@ -111,7 +111,7 @@ public class UserDao {
 //        int result = 0;
 //        try {
 //            con = fig.getConnection();
-//            PreparedStatement ps = con.prepareStatement("DELETE FROM study4diploma.users WHERE user_id=?");
+//            PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE user_id=?");
 //           
 //			ps.setString(1, user_id);
 //            result = ps.executeUpdate();
@@ -185,7 +185,7 @@ public class UserDao {
 
             try {
                 con = fig.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM study4diploma.users");
+                PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM users");
                 ResultSet rs = ps.executeQuery();
 
                 if (rs.next()) {
@@ -204,7 +204,7 @@ public class UserDao {
 
             try {
                 con = fig.getConnection();
-                String sql = "SELECT * FROM study4diploma.users";
+                String sql = "SELECT * FROM users";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
 
@@ -256,7 +256,7 @@ public class UserDao {
         public int deleteUser(String userId) {
             int result = 0;
             try {
-                Connection con = DBConnect.getConnection();
+                Connection con = fig.getConnection();
                 String sql = "DELETE FROM users WHERE user_id = ?";
                 PreparedStatement stmt = con.prepareStatement(sql);
                 stmt.setString(1, userId);
