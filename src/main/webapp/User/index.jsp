@@ -397,6 +397,7 @@ document.addEventListener('click', function(e) {
     closeMobileSearchDropdown();
   }
 });
+</script>
 <script>
 // ── Navbar Search — hints from real DB data ──────────────────
 const MATERIAL_HINTS = (function() {
