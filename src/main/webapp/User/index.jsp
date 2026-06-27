@@ -404,9 +404,18 @@ document.addEventListener('click', function(e) {
 <script>
 // ── Navbar Search — hints loaded via JSON API ──────────────────
 let MATERIAL_HINTS = [];
+let hintsReady = false;
 fetch('../SearchHintsController')
   .then(r => r.json())
-  .then(data => { MATERIAL_HINTS = data; })
+  .then(data => {
+    MATERIAL_HINTS = data;
+    hintsReady = true;
+    // Re-run suggest in case user already typed something
+    const navVal = document.getElementById('navSearch').value;
+    if (navVal.trim().length > 0) navSearchSuggest(navVal);
+    const mobVal = document.getElementById('mobileNavSearch').value;
+    if (mobVal.trim().length > 0) mobileNavSearchSuggest(mobVal);
+  })
   .catch(e => console.log('hints load error', e));
 
 function navGoSearch() {
