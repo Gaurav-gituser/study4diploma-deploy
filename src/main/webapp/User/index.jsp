@@ -358,7 +358,7 @@ function mobileNavSearchSuggest(val) {
   const q = val.trim().toLowerCase();
   if (q.length < 1) { closeMobileSearchDropdown(); return; }
 
-  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escaped = q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&');
   const re = new RegExp(escaped, 'gi');
 
   const startsWith = MATERIAL_HINTS.filter(h => h.toLowerCase().startsWith(q));
@@ -450,7 +450,7 @@ function navSearchSuggest(val) {
   const q = val.trim().toLowerCase();
   if (q.length < 1) { closeNavDropdown(); return; }
 
-  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escaped = q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&');
   const re = new RegExp(escaped, 'gi');
 
   // Sort: starts-with first, then contains
