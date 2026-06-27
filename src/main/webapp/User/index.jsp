@@ -371,7 +371,7 @@ function mobileNavSearchSuggest(val) {
     const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
     const enc = encodeURIComponent(m);
     return `<div data-val="${enc}" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
-      <span style="flex-shrink:0;font-size:15px;opacity:0.7;">📄</span>
+      <span style="flex-shrink:0;font-size:15px;opacity:0.65;">📄</span>
       <span style="flex:1;color:#CBD8F0;font-size:13px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
@@ -402,45 +402,12 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script>
-// ── Navbar Search — hints from real DB data ──────────────────
-const MATERIAL_HINTS = (function() {
-  const raw = [
-    <%
-      LinkedHashSet<String> hints = new LinkedHashSet<>();
-      try {
-        // Subject names
-        SubjectDao subjectDao = new SubjectDao();
-        ArrayList<Subject> subjects = subjectDao.getAllsubjects();
-        if (subjects != null) {
-          for (Subject s : subjects) {
-            if (s.getName() != null && !s.getName().trim().isEmpty()) {
-              hints.add(s.getName().trim().replace("\"","\\\""));
-            }
-          }
-        }
-        // Material titles
-        MaterialDao matDao = new MaterialDao();
-        ArrayList<Material> mats = matDao.getAllMaterials();
-        if (mats != null) {
-          for (Material m : mats) {
-            if (m.getTitle() != null && !m.getTitle().trim().isEmpty()) {
-              hints.add(m.getTitle().trim().replace("\"","\\\""));
-            }
-          }
-        }
-      } catch (Exception ignored) {}
-      StringBuilder sb = new StringBuilder();
-      boolean first = true;
-      for (String h : hints) {
-        if (!first) sb.append(",\n    ");
-        sb.append("\"").append(h).append("\"");
-        first = false;
-      }
-      out.print(sb.toString());
-    %>
-  ];
-  return raw;
-})();
+// ── Navbar Search — hints loaded via JSON API ──────────────────
+let MATERIAL_HINTS = [];
+fetch('../SearchHintsController')
+  .then(r => r.json())
+  .then(data => { MATERIAL_HINTS = data; })
+  .catch(e => console.log('hints load error', e));
 
 function navGoSearch() {
   const q = document.getElementById('navSearch').value.trim();
@@ -468,7 +435,7 @@ function navSearchSuggest(val) {
     const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
     const enc = encodeURIComponent(m);
     return `<div data-val="${enc}" style="display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
-      <span style="flex-shrink:0;font-size:14px;opacity:0.7;">📄</span>
+      <span style="flex-shrink:0;font-size:14px;opacity:0.65;">📄</span>
       <span style="flex:1;color:#CBD8F0;font-size:12.5px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
