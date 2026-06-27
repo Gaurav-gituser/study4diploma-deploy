@@ -391,6 +391,106 @@ body {
   transform: translateY(-7px) rotate(-45deg);
 }
 
+/* ── MOBILE SEARCH BUTTON (icon in navbar, mobile only) ─── */
+.mobile-search-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1.5px solid rgba(0,198,255,0.35);
+  border-radius: 8px;
+  color: var(--cyan);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  margin-right: 8px;
+  z-index: 1100;
+}
+.mobile-search-btn:hover {
+  background: rgba(0,198,255,0.12);
+  border-color: var(--cyan);
+}
+
+/* ── MOBILE SEARCH BAR (drop-down panel) ─────────────────── */
+.mobile-search-bar {
+  display: none;
+  position: fixed;
+  top: 58px;
+  left: 0;
+  width: 100%;
+  background: rgba(8, 15, 38, 0.98);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  z-index: 998;
+  padding: 14px 16px 16px;
+  flex-direction: column;
+  gap: 0;
+  transform: translateY(-8px);
+  opacity: 0;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.mobile-search-bar.open {
+  display: flex;
+  transform: translateY(0);
+  opacity: 1;
+}
+.mobile-search-inner {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(0,198,255,0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 42px;
+  transition: border-color 0.2s;
+}
+.mobile-search-inner:focus-within {
+  border-color: var(--cyan);
+  background: rgba(0,198,255,0.06);
+}
+.mobile-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  padding: 0 12px;
+}
+.mobile-search-input::placeholder { color: rgba(203,216,240,0.45); }
+.mobile-search-go {
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(0,198,255,0.2);
+  cursor: pointer;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
+}
+.mobile-search-go:hover {
+  background: rgba(0,198,255,0.12);
+  color: var(--white);
+}
+.mobile-search-dropdown {
+  display: none;
+  background: #0b1530;
+  border: 1px solid rgba(0,198,255,0.2);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  overflow: hidden;
+  padding: 4px 0;
+  margin-top: -2px;
+}
+
 /* ── MOBILE DRAWER ──────────────────────── */
 .mobile-menu {
   display: none;
@@ -863,6 +963,7 @@ body {
   .nav-right { display: none; }
   .nav-search-wrap { display: none; }
   .hamburger { display: flex; }
+  .mobile-search-btn { display: flex; }
 
   .content-wrapper {
     flex-direction: column;
@@ -886,6 +987,7 @@ body {
   .navbar { padding: 0 16px; height: 58px; }
 
   .mobile-menu { top: 58px; }
+  .mobile-search-bar { top: 58px; }
 
   .logo { font-size: 18px; }
 

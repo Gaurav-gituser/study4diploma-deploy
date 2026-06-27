@@ -20,6 +20,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <title>Study4Diploma — MSBTE Study Material</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -86,11 +89,33 @@
           <a href="./login.jsp">Login</a>
         <% } %>
       </div>
+      <!-- Mobile search icon (visible only on mobile, left of hamburger) -->
+      <button class="mobile-search-btn" id="mobileSearchBtn" aria-label="Search" onclick="toggleMobileSearch()">
+        <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8.5" cy="8.5" r="5.5"/><line x1="13.5" y1="13.5" x2="18" y2="18"/>
+        </svg>
+      </button>
       <!-- Hamburger button (mobile only) -->
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </nav>
+
+    <!-- Mobile search bar (slides down below navbar on mobile) -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <div class="mobile-search-inner">
+        <input type="text" id="mobileNavSearch" class="mobile-search-input" placeholder="Search subjects, materials…"
+          autocomplete="off"
+          oninput="mobileNavSearchSuggest(this.value)"
+          onkeydown="if(event.key==='Enter') mobileNavGoSearch()">
+        <button class="mobile-search-go" onclick="mobileNavGoSearch()">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8.5" cy="8.5" r="5.5"/><line x1="13.5" y1="13.5" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-search-dropdown" id="mobileSearchDropdown"></div>
+    </div>
 
     <!-- Mobile drawer -->
     <div class="mobile-menu" id="mobileMenu">
@@ -114,9 +139,8 @@
       <% } else { %>
         <a href="./login.jsp" class="mobile-login-btn">Login</a>
       <% } %>
-    </div>
-    </nav>
-    
+    </div><!-- /.mobile-menu -->
+
 
     <!-- ── HERO + FORM ────────────────────────── -->
     <div class="content-wrapper">
@@ -305,6 +329,74 @@
     });
   });
 </script>
+<script>
+// ── Mobile Search bar toggle ──────────────────────────────────
+function toggleMobileSearch() {
+  const bar = document.getElementById('mobileSearchBar');
+  const input = document.getElementById('mobileNavSearch');
+  if (!bar) return;
+  const isOpen = bar.classList.toggle('open');
+  if (isOpen) {
+    setTimeout(() => input && input.focus(), 120);
+    // close hamburger menu if open
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+  } else {
+    closeMobileSearchDropdown();
+  }
+}
+
+function mobileNavGoSearch() {
+  const q = document.getElementById('mobileNavSearch').value.trim();
+  if (!q) return;
+  closeMobileSearchDropdown();
+  window.location.href = './Material.jsp?search=' + encodeURIComponent(q);
+}
+
+function mobileNavSearchSuggest(val) {
+  const dropdown = document.getElementById('mobileSearchDropdown');
+  const q = val.trim().toLowerCase();
+  if (q.length < 1) { closeMobileSearchDropdown(); return; }
+
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(escaped, 'gi');
+
+  const startsWith = MATERIAL_HINTS.filter(h => h.toLowerCase().startsWith(q));
+  const contains   = MATERIAL_HINTS.filter(h => !h.toLowerCase().startsWith(q) && h.toLowerCase().includes(q));
+  const matches = [...startsWith, ...contains].slice(0, 6);
+
+  if (!matches.length) { closeMobileSearchDropdown(); return; }
+
+  dropdown.innerHTML = matches.map(m => {
+    const hl = m.replace(re, '<mark>$&</mark>');
+    const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="nav-search-item" onclick="mobilePick('${safe}')">
+      <span class="nav-si-icon">📄</span>
+      <span class="nav-si-text">${hl}</span>
+    </div>`;
+  }).join('');
+  dropdown.style.display = 'block';
+}
+
+function mobilePick(text) {
+  document.getElementById('mobileNavSearch').value = text;
+  closeMobileSearchDropdown();
+  window.location.href = './Material.jsp?search=' + encodeURIComponent(text);
+}
+
+function closeMobileSearchDropdown() {
+  const d = document.getElementById('mobileSearchDropdown');
+  if (d) d.style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+  const bar = document.getElementById('mobileSearchBar');
+  const btn = document.getElementById('mobileSearchBtn');
+  if (bar && !bar.contains(e.target) && btn && !btn.contains(e.target)) {
+    bar.classList.remove('open');
+    closeMobileSearchDropdown();
+  }
+});
 <script>
 // ── Navbar Search — hints from real DB data ──────────────────
 const MATERIAL_HINTS = (function() {
