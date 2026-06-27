@@ -370,9 +370,9 @@ function mobileNavSearchSuggest(val) {
   dropdown.innerHTML = matches.map(m => {
     const hl = m.replace(re, '<mark>$&</mark>');
     const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="nav-search-item" onclick="mobilePick('${safe}')">
-      <span class="nav-si-icon">📄</span>
-      <span class="nav-si-text">${hl}</span>
+    return `<div class="nav-search-item" onclick="mobilePick('${safe}')" style="display:flex;align-items:center;gap:9px;">
+      <span class="nav-si-icon" style="flex-shrink:0;font-size:14px;opacity:0.7;">📄</span>
+      <span class="nav-si-text" style="flex:1;color:#CBD8F0;font-size:13px;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
   dropdown.style.display = 'block';
@@ -464,9 +464,9 @@ function navSearchSuggest(val) {
   dropdown.innerHTML = matches.map(m => {
     const hl = m.replace(re, '<mark>$&</mark>');
     const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="nav-search-item" onclick="navPickSuggestion('${safe}')">
-      <span class="nav-si-icon">📄</span>
-      <span class="nav-si-text">${hl}</span>
+    return `<div class="nav-search-item" onclick="navPickSuggestion('${safe}')" style="display:flex;align-items:center;gap:9px;">
+      <span class="nav-si-icon" style="flex-shrink:0;font-size:13px;opacity:0.7;">📄</span>
+      <span class="nav-si-text" style="flex:1;color:#CBD8F0;font-size:12.5px;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
   dropdown.style.display = 'block';

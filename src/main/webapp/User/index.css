@@ -350,7 +350,7 @@ body {
   flex-shrink: 0;
 }
 
-.nav-si-text { flex: 1; line-height: 1.3; color: var(--soft); }
+.nav-si-text { flex: 1; line-height: 1.3; color: #CBD8F0 !important; font-size: 13px; }
 
 .nav-search-item mark {
   background: transparent;
@@ -522,7 +522,7 @@ body {
 .mobile-search-dropdown .nav-si-text {
   flex: 1;
   line-height: 1.3;
-  color: var(--soft);
+  color: #CBD8F0 !important;
 }
 
 .mobile-search-dropdown mark {
