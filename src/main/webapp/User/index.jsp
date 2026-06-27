@@ -369,12 +369,15 @@ function mobileNavSearchSuggest(val) {
 
   dropdown.innerHTML = matches.map(m => {
     const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
-    const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div onclick="mobilePick('${safe}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
+    const enc = encodeURIComponent(m);
+    return `<div data-val="${enc}" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
       <span style="flex-shrink:0;font-size:15px;opacity:0.7;">📄</span>
       <span style="flex:1;color:#CBD8F0;font-size:13px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
+  dropdown.querySelectorAll('[data-val]').forEach(el => {
+    el.addEventListener('click', () => mobilePick(decodeURIComponent(el.dataset.val)));
+  });
   dropdown.style.display = 'block';
 }
 
@@ -463,12 +466,15 @@ function navSearchSuggest(val) {
 
   dropdown.innerHTML = matches.map(m => {
     const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
-    const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div onclick="navPickSuggestion('${safe}')" style="display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
+    const enc = encodeURIComponent(m);
+    return `<div data-val="${enc}" style="display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
       <span style="flex-shrink:0;font-size:14px;opacity:0.7;">📄</span>
       <span style="flex:1;color:#CBD8F0;font-size:12.5px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
+  dropdown.querySelectorAll('[data-val]').forEach(el => {
+    el.addEventListener('click', () => navPickSuggestion(decodeURIComponent(el.dataset.val)));
+  });
   dropdown.style.display = 'block';
 }
 
