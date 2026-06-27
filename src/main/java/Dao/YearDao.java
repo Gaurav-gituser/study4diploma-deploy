@@ -43,7 +43,7 @@ public class YearDao {
     public ArrayList<Year> getAllyears() {
         ArrayList<Year> years = new ArrayList<>();
         try (Connection con = fig.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT year_id, year FROM year ORDER BY year");
+             PreparedStatement ps = con.prepareStatement("SELECT year, year_id FROM year ORDER BY year");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 years.add(new Year(rs.getString(1), rs.getString(2)));
@@ -82,13 +82,13 @@ public class YearDao {
     public Year getYearById(String year_id) {
         Year yr = null;
         try (Connection con = fig.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT year_id, year FROM year WHERE year_id = ?")) {
+             PreparedStatement ps = con.prepareStatement("SELECT year, year_id FROM year WHERE year_id = ?")) {
             ps.setString(1, year_id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 yr = new Year();
-                yr.setyear_id(rs.getString(1));
-                yr.setyear(rs.getString(2));
+                yr.setyear(rs.getString(1));
+                yr.setyear_id(rs.getString(2));
             }
         } catch (Exception e) {
             System.out.println("Exception in getYearById: " + e);

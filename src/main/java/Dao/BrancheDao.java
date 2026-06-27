@@ -43,7 +43,7 @@ public class BrancheDao {
     public ArrayList<Branche> getAllbranches() {
         ArrayList<Branche> branches = new ArrayList<>();
         try (Connection con = fig.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT branche_id, branche FROM branches ORDER BY branche");
+             PreparedStatement ps = con.prepareStatement("SELECT branche, branche_id FROM branches ORDER BY branche");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 branches.add(new Branche(rs.getString(1), rs.getString(2)));
