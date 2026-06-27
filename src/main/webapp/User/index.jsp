@@ -368,11 +368,11 @@ function mobileNavSearchSuggest(val) {
   if (!matches.length) { closeMobileSearchDropdown(); return; }
 
   dropdown.innerHTML = matches.map(m => {
-    const hl = m.replace(re, '<mark>$&</mark>');
+    const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
     const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="nav-search-item" onclick="mobilePick('${safe}')" style="display:flex;align-items:center;gap:9px;">
-      <span class="nav-si-icon" style="flex-shrink:0;font-size:14px;opacity:0.7;">📄</span>
-      <span class="nav-si-text" style="flex:1;color:#CBD8F0;font-size:13px;line-height:1.3;">${hl}</span>
+    return `<div onclick="mobilePick('${safe}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
+      <span style="flex-shrink:0;font-size:15px;opacity:0.7;">📄</span>
+      <span style="flex:1;color:#CBD8F0;font-size:13px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
   dropdown.style.display = 'block';
@@ -462,11 +462,11 @@ function navSearchSuggest(val) {
   if (!matches.length) { closeNavDropdown(); return; }
 
   dropdown.innerHTML = matches.map(m => {
-    const hl = m.replace(re, '<mark>$&</mark>');
+    const hl = m.replace(re, '<span style="color:#00c6ff;font-weight:600;">$&</span>');
     const safe = m.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="nav-search-item" onclick="navPickSuggestion('${safe}')" style="display:flex;align-items:center;gap:9px;">
-      <span class="nav-si-icon" style="flex-shrink:0;font-size:13px;opacity:0.7;">📄</span>
-      <span class="nav-si-text" style="flex:1;color:#CBD8F0;font-size:12.5px;line-height:1.3;">${hl}</span>
+    return `<div onclick="navPickSuggestion('${safe}')" style="display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(0,198,255,0.08);">
+      <span style="flex-shrink:0;font-size:14px;opacity:0.7;">📄</span>
+      <span style="flex:1;color:#CBD8F0;font-size:12.5px;font-family:Poppins,sans-serif;line-height:1.3;">${hl}</span>
     </div>`;
   }).join('');
   dropdown.style.display = 'block';
