@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" session="true" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,10 +76,6 @@
     .signup-box .links p { color:var(--soft); font-size:13px; }
     .signup-box .links a { color:var(--cyan); text-decoration:none; font-weight:600; }
     .signup-box .links a:hover { text-decoration:underline; }
-    .msg-error { background:rgba(255,107,107,0.15); border:1px solid #ff6b6b; border-radius:6px;
-      color:#ff6b6b; font-size:13px; padding:10px 14px; margin-bottom:16px; text-align:center; }
-    .msg-success { background:rgba(0,198,100,0.15); border:1px solid #00c664; border-radius:6px;
-      color:#00c664; font-size:13px; padding:10px 14px; margin-bottom:16px; text-align:center; }
   </style>
 </head>
 <body>
@@ -107,11 +103,6 @@
 <div class="signup-wrapper">
   <div class="signup-box">
     <h2>Create Account</h2>
-    <%
-      String signupErr = (String) session.getAttribute("signupError");
-      if (signupErr != null) { session.removeAttribute("signupError"); %>
-        <div class="msg-error"><%= signupErr %></div>
-    <% } %>
     <form action="../UserController" method="post">
 
       <label for="name">Full Name</label>
